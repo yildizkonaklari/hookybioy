@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Create bios, hooks, and short-form content for any platform.">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <title>Create – Hooky</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="create.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <a href="index.html" class="back-link">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <span class="header-title">Create</span>
+            <div class="header-spacer"></div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Form Section -->
+            <section class="form-section">
+                <!-- Platform -->
+                <div class="input-group">
+                    <label class="input-label">Platform</label>
+                    <div class="chip-group" id="platformGroup">
+                        <button class="chip active" data-value="Instagram">Instagram</button>
+                        <button class="chip" data-value="TikTok">TikTok</button>
+                        <button class="chip" data-value="YouTube">YouTube</button>
+                        <button class="chip" data-value="X">X</button>
+                        <button class="chip" data-value="LinkedIn">LinkedIn</button>
+                    </div>
+                </div>
+
+                <!-- Niche -->
+                <div class="input-group">
+                    <label class="input-label" for="nicheInput">What do you do?</label>
+                    <input type="text" id="nicheInput" class="text-input"
+                        placeholder="e.g. Fitness coaching, Recipe videos, Tech reviews">
+                </div>
+
+                <!-- Audience -->
+                <div class="input-group">
+                    <label class="input-label" for="audienceInput">Who is it for?</label>
+                    <input type="text" id="audienceInput" class="text-input"
+                        placeholder="e.g. Busy professionals, New parents, Small business owners">
+                </div>
+
+                <!-- Goal -->
+                <div class="input-group">
+                    <label class="input-label">Goal</label>
+                    <div class="chip-group" id="goalGroup">
+                        <button class="chip active" data-value="Followers">More followers</button>
+                        <button class="chip" data-value="DMs">Start conversations</button>
+                        <button class="chip" data-value="Sales">Drive sales</button>
+                        <button class="chip" data-value="Authority">Build credibility</button>
+                    </div>
+                </div>
+
+                <!-- Style -->
+                <div class="input-group">
+                    <label class="input-label">Tone</label>
+                    <div class="chip-group" id="styleGroup">
+                        <button class="chip" data-value="Minimal">Minimal</button>
+                        <button class="chip active" data-value="Balanced">Balanced</button>
+                        <button class="chip" data-value="Expressive">Friendly</button>
+                    </div>
+                </div>
+
+                <!-- Output Type -->
+                <div class="input-group">
+                    <label class="input-label">What to create</label>
+                    <div class="chip-group" id="outputGroup">
+                        <button class="chip active" data-value="Bio">Full bio</button>
+                        <button class="chip" data-value="Hook_Line">Hook line</button>
+                        <button class="chip" data-value="CTA_Line">Call to action</button>
+                        <button class="chip" data-value="Variations">3 variations</button>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button class="generate-btn" id="generateBtn">
+                    <span class="btn-text">Create</span>
+                    <span class="btn-loader hidden"></span>
+                </button>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section hidden" id="resultsSection">
+                <div class="results-header">
+                    <h2 class="results-title">Your content</h2>
+                    <button class="copy-all-btn" id="copyAllBtn">Copy all</button>
+                </div>
+                <div class="results-container" id="resultsContainer">
+                    <!-- Results will be dynamically inserted here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
