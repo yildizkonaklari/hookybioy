@@ -816,6 +816,64 @@ body::before {
     color: var(--text-muted);
 }
 
+/* Subscription Plan Options */
+.plan-options {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.plan-option {
+    flex: 1;
+    padding: var(--space-md);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    position: relative;
+}
+
+.plan-option:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.plan-option.active {
+    border-color: var(--accent-pink);
+    background: rgba(244, 114, 182, 0.1);
+}
+
+.plan-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.plan-price {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.plan-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    padding: 2px 8px;
+    background: var(--gradient-accent);
+    border-radius: var(--radius-full);
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--bg-primary);
+    text-transform: uppercase;
+}
+
 .paywall-cta {
     width: 100%;
     padding: 16px;
@@ -835,10 +893,32 @@ body::before {
     box-shadow: 0 8px 24px rgba(251, 113, 133, 0.3);
 }
 
+.paywall-cta:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
 .paywall-note {
     font-size: 0.75rem;
     color: var(--text-muted);
     margin-top: var(--space-md);
+}
+
+.restore-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-family);
+    cursor: pointer;
+    margin-top: var(--space-sm);
+    text-decoration: underline;
+    transition: color var(--transition);
+}
+
+.restore-btn:hover {
+    color: var(--text-secondary);
 }
 
 .paywall-secondary {

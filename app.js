@@ -467,11 +467,72 @@ if (!generateBtn) {
         }
     });
 
-    // Paywall CTA - placeholder for actual purchase
-    paywallCta.addEventListener('click', () => {
-        // TODO: Integrate with actual payment system
-        showToast('Payment integration coming soon!');
+    // Plan selection
+    let selectedPlan = 'monthly';
+    const planMonthly = document.getElementById('planMonthly');
+    const planYearly = document.getElementById('planYearly');
+
+    if (planMonthly && planYearly) {
+        planMonthly.addEventListener('click', () => {
+            planMonthly.classList.add('active');
+            planYearly.classList.remove('active');
+            selectedPlan = 'monthly';
+        });
+
+        planYearly.addEventListener('click', () => {
+            planYearly.classList.add('active');
+            planMonthly.classList.remove('active');
+            selectedPlan = 'yearly';
+        });
+    }
+
+    // Paywall CTA - Purchase subscription
+    paywallCta.addEventListener('click', async () => {
+        if (!window.billingManager || !window.billingManager.isAvailable) {
+            // Fallback for testing or unsupported environments
+            showToast('Purchase not available in this environment');
+            return;
+        }
+
+        const productId = window.PRODUCT_IDS[selectedPlan];
+        paywallCta.disabled = true;
+        paywallCta.textContent = 'Processing...';
+
+        try {
+            const result = await window.billingManager.purchase(productId);
+
+            if (result.success) {
+                hidePaywall();
+                showToast('Welcome to PRO! 🎉');
+            } else {
+                showToast(result.error || 'Purchase failed', true);
+            }
+        } catch (error) {
+            showToast('Purchase failed. Please try again.', true);
+        } finally {
+            paywallCta.disabled = false;
+            paywallCta.textContent = 'Upgrade to PRO';
+        }
     });
+
+    // Restore purchases
+    const restoreBtn = document.getElementById('restoreBtn');
+    if (restoreBtn) {
+        restoreBtn.addEventListener('click', async () => {
+            if (!window.billingManager) {
+                showToast('Restore not available');
+                return;
+            }
+
+            restoreBtn.textContent = 'Restoring...';
+            const restored = await window.billingManager.restorePurchases();
+
+            if (restored) {
+                hidePaywall();
+            }
+            restoreBtn.textContent = 'Restore Purchase';
+        });
+    }
 
     // Escape key to close paywall
     document.addEventListener('keydown', (e) => {

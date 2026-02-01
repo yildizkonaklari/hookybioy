@@ -150,15 +150,29 @@
                     <li>✓ All output types</li>
                 </ul>
 
-
+                <!-- Subscription Plans -->
+                <div class="plan-options">
+                    <button class="plan-option active" id="planMonthly" data-plan="monthly">
+                        <span class="plan-name">Monthly</span>
+                        <span class="plan-price" id="monthlyPrice">₺29.99/mo</span>
+                    </button>
+                    <button class="plan-option" id="planYearly" data-plan="yearly">
+                        <span class="plan-name">Yearly</span>
+                        <span class="plan-price" id="yearlyPrice">₺199.99/yr</span>
+                        <span class="plan-badge">Save 44%</span>
+                    </button>
+                </div>
 
                 <button class="paywall-cta" id="paywallCta">Upgrade to PRO</button>
 
                 <p class="paywall-note" id="paywallNote">Cancel anytime</p>
+
+                <button class="restore-btn" id="restoreBtn">Restore Purchase</button>
             </div>
         </div>
     </div>
 
+    <script src="billing.js"></script>
     <script src="app.js"></script>
 </body>
 
