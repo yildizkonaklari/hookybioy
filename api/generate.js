@@ -117,7 +117,7 @@ Before finalizing:
 
 If not, rewrite internally until it feels clean and human.`;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -163,6 +163,8 @@ Output_Type: ${outputType}`;
         });
 
         if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            console.error('OpenAI API error:', response.status, errorData);
             return res.status(response.status).json({ error: 'Failed to generate content' });
         }
 
@@ -178,4 +180,4 @@ Output_Type: ${outputType}`;
         console.error('Function error:', error);
         return res.status(500).json({ error: 'Internal server error' });
     }
-}
+};
