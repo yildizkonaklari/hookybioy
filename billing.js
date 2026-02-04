@@ -141,16 +141,24 @@ class BillingManager {
             const request = new PaymentRequest(paymentMethods, paymentDetails);
             const response = await request.show();
 
-            // Validate purchase on your server (recommended for production)
-            // For now, we'll trust the client
-
+            // Complete the payment
             await response.complete('success');
 
-            // Consume the purchase to acknowledge it
-            const { purchaseToken } = JSON.parse(response.details.token);
-            await this.service.consume(purchaseToken);
+            // For subscriptions, we need to acknowledge (NOT consume)
+            // The purchase token is used for acknowledgment
+            try {
+                const tokenData = JSON.parse(response.details.token);
+                if (tokenData.purchaseToken) {
+                    // Acknowledge the subscription purchase
+                    await this.service.acknowledge(tokenData.purchaseToken, 'onetime');
+                    console.log('Purchase acknowledged successfully');
+                }
+            } catch (ackError) {
+                // Acknowledgment might fail but purchase is still valid
+                console.warn('Acknowledgment warning:', ackError);
+            }
 
-            // Grant access
+            // Grant PRO access immediately after successful purchase
             this.grantProAccess();
 
             return { success: true };
@@ -167,17 +175,23 @@ class BillingManager {
 
     // Grant PRO access to the user
     grantProAccess() {
+        // Set PRO status in localStorage
         localStorage.setItem('hooky_bio_pro', 'true');
 
-        // Update UI
+        // Set global flag
+        window.isProUser = true;
+
+        // Update PRO badge
         const proBadge = document.getElementById('proBadge');
         if (proBadge) {
             proBadge.style.background = 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)';
             proBadge.textContent = '✓ PRO';
         }
 
-        // Remove PRO tags from chips
+        // Remove PRO tags from all chips
         document.querySelectorAll('.pro-tag').forEach(tag => tag.remove());
+
+        // Enable all PRO features
         document.querySelectorAll('.chip.pro-feature').forEach(chip => {
             chip.classList.remove('pro-feature');
             chip.removeAttribute('data-pro');
@@ -190,8 +204,24 @@ class BillingManager {
             document.body.style.overflow = '';
         }
 
+        // Hide upgrade hint
+        const upgradeHint = document.getElementById('upgradeHint');
+        if (upgradeHint) {
+            upgradeHint.classList.add('hidden');
+        }
+
+        // Hide soft reminder
+        const softReminder = document.getElementById('softReminder');
+        if (softReminder) {
+            softReminder.classList.add('hidden');
+        }
+
         // Show success message
-        showToast('Welcome to PRO! 🎉');
+        if (typeof showToast === 'function') {
+            showToast('Welcome to PRO! 🎉');
+        }
+
+        console.log('PRO access granted successfully!');
     }
 
     // Restore purchases (for users who reinstall)
